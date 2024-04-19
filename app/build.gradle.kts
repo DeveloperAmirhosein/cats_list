@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 }
 
 kapt {
