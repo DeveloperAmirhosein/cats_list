@@ -1,4 +1,4 @@
-package com.nocompany.catslist.data.remote
+package com.nocompany.catslist.domain
 
 import androidx.paging.PagingData
 import com.nocompany.catslist.domain.model.Cat

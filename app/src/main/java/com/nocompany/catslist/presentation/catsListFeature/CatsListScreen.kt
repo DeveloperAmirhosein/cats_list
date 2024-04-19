@@ -28,7 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +46,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.nocompany.catslist.R
-import com.nocompany.catslist.domain.model.Cat
+import com.nocompany.catslist.presentation.model.CatModel
 
 @Composable
 fun CatsListRoute(viewModel: CatsViewModel = hiltViewModel()) {
@@ -56,12 +56,12 @@ fun CatsListRoute(viewModel: CatsViewModel = hiltViewModel()) {
 
 @Composable
 fun CatsListScreen(
-    cats: LazyPagingItems<Cat>
+    cats: LazyPagingItems<CatModel>
 ) {
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
     val loadMoreState = loadState.source.append
-    var selectedCat: Cat? by remember {
+    var selectedCat: CatModel? by rememberSaveable {
         mutableStateOf(null)
     }
 
@@ -190,7 +190,7 @@ private fun BottomBarLoading(modifier: Modifier = Modifier) {
 @Composable
 fun FullScreenImageDialog(
     modifier: Modifier = Modifier,
-    cat: Cat,
+    cat: CatModel,
     onDismissRequest: () -> Unit
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -211,7 +211,7 @@ fun FullScreenImageDialog(
 
 @Composable
 fun CatCard(
-    cat: Cat,
+    cat: CatModel,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {

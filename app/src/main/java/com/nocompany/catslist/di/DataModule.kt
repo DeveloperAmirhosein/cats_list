@@ -1,7 +1,7 @@
 package com.nocompany.catslist.di
 
 import com.nocompany.catslist.data.remote.CatsRemoteDataSource
-import com.nocompany.catslist.data.remote.CatsRepository
+import com.nocompany.catslist.domain.CatsRepository
 import com.nocompany.catslist.data.remote.CatsRepositoryImplementation
 import com.nocompany.catslist.data.remote.CatsRetrofitDataSource
 import dagger.Binds

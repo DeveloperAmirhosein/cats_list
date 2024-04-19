@@ -1,7 +1,6 @@
 package com.nocompany.catslist.domain
 
 import androidx.paging.PagingData
-import com.nocompany.catslist.data.remote.CatsRepository
 import com.nocompany.catslist.domain.model.Cat
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
