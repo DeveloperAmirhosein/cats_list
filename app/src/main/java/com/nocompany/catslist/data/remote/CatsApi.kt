@@ -7,7 +7,7 @@ import retrofit2.http.Query
 interface CatsApi {
 
     @GET(value = "images/search")
-    fun getCatsList(
+    suspend fun getCatsList(
         @Query("limit") limit: Int,
         @Query("page") page: Int
     ): List<CatDto>

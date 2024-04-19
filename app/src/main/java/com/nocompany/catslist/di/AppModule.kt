@@ -22,5 +22,4 @@ object AppModule {
         .build()
         .create(CatsApi::class.java)
 
-
 }
