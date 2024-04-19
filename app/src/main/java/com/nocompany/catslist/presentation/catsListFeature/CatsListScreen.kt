@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +26,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -55,6 +61,9 @@ fun CatsListScreen(
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
     val loadMoreState = loadState.source.append
+    var selectedCat: Cat? by remember {
+        mutableStateOf(null)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         when (refreshLoadState) {
@@ -79,7 +88,9 @@ fun CatsListScreen(
                 ) {
                     items(cats.itemCount) {
                         cats[it]?.let { cat ->
-                            CatCard(cat)
+                            CatCard(cat) {
+                                selectedCat = cat
+                            }
                         }
                     }
                 }
@@ -117,6 +128,10 @@ fun CatsListScreen(
 
             }
 
+        }
+
+        selectedCat?.let {
+            FullScreenImageDialog(cat = it) { selectedCat = null }
         }
 
     }
@@ -173,9 +188,32 @@ private fun BottomBarLoading(modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun FullScreenImageDialog(
+    modifier: Modifier = Modifier,
+    cat: Cat,
+    onDismissRequest: () -> Unit
+) {
+    Dialog(onDismissRequest = onDismissRequest) {
+        AsyncImage(
+            model = cat.url,
+            contentDescription = stringResource(id = R.string.cat_image),
+            modifier = modifier
+                .aspectRatio(cat.width / cat.height.toFloat())
+                .clip(
+                    RoundedCornerShape(16.dp)
+                ),
+            placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
+            contentScale = ContentScale.Crop,
+        )
+
+    }
+}
+
+@Composable
 fun CatCard(
     cat: Cat,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     AsyncImage(
         model = cat.url,
@@ -183,7 +221,10 @@ fun CatCard(
         modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .aspectRatio(0.8f)
-            .clip(RoundedCornerShape(10.dp)),
+            .clip(
+                RoundedCornerShape(10.dp)
+            )
+            .clickable(onClick = onClick),
         placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
         contentScale = ContentScale.Crop,
     )
