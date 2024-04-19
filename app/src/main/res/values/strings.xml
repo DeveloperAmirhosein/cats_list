@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Cats List</string>
+    <string name="cat_image">Cat image</string>
+    <string name="general_error_message">Something Went Wrong</string>
+    <string name="try_again">Try Again</string>
+    <string name="error">"error"</string>
+    <string name="internet_connection_error">Seems like there\'s an internet \n connection problem.</string>
+    <string name="connection_glitch">Connection glitch</string>
+    <string name="retry">Retry</string>
 </resources>
