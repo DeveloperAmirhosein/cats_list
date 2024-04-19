@@ -1,12 +1,17 @@
 package com.nocompany.catslist.presentation.catsListFeature
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,6 +54,7 @@ fun CatsListScreen(
 ) {
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
+    val loadMoreState = loadState.source.append
 
     Box(modifier = Modifier.fillMaxSize()) {
         when (refreshLoadState) {
@@ -86,11 +93,90 @@ fun CatsListScreen(
             }
         }
 
+        AnimatedVisibility(
+            visible = loadMoreState !is LoadState.NotLoading,
+            modifier = Modifier.align(
+                Alignment.BottomCenter
+            ),
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
+            when (loadMoreState) {
+                is LoadState.Loading -> {
+                    BottomBarLoading(modifier = Modifier.align(Alignment.BottomCenter))
+                }
+
+                is LoadState.Error -> {
+                    LoadMoreError(
+                        Modifier.align(Alignment.BottomCenter),
+                        cats::retry,
+                    )
+                }
+
+                else -> {}
+
+            }
+
+        }
+
+    }
+}
+
+
+@Composable
+fun LoadMoreError(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+        Text(
+            modifier = Modifier.align(Alignment.CenterStart),
+            text = stringResource(id = R.string.general_error_message)
+        )
+        OutlinedButton(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clip(RoundedCornerShape(4.dp)),
+            shape = RoundedCornerShape(4.dp),
+
+            onClick = onClick
+        ) {
+            Text(
+                text = stringResource(id = R.string.try_again),
+            )
+        }
+
     }
 }
 
 @Composable
-fun CatCard(cat: Cat, modifier: Modifier = Modifier) {
+private fun BottomBarLoading(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .size(32.dp)
+                .align(Alignment.BottomCenter),
+        )
+
+    }
+}
+
+@Composable
+fun CatCard(
+    cat: Cat,
+    modifier: Modifier = Modifier
+) {
     AsyncImage(
         model = cat.url,
         contentDescription = stringResource(id = R.string.cat_image),
