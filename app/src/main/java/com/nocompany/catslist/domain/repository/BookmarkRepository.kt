@@ -1,4 +1,4 @@
-package com.nocompany.catslist.domain
+package com.nocompany.catslist.domain.repository
 
 import com.nocompany.catslist.domain.model.Cat
 import kotlinx.coroutines.flow.Flow

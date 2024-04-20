@@ -1,9 +1,10 @@
-package com.nocompany.catslist.domain
+package com.nocompany.catslist.domain.usecase
 
+import com.nocompany.catslist.domain.repository.BookmarkRepository
 import com.nocompany.catslist.domain.model.Cat
 import javax.inject.Inject
 
-class BookmarkCatsUseCase @Inject constructor(
+class BookmarkCatUseCase @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
 ) {
     suspend operator fun invoke(cat: Cat, bookmark: Boolean) {

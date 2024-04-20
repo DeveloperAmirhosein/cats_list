@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -51,12 +54,13 @@ import com.nocompany.catslist.presentation.model.CatModel
 @Composable
 fun CatsListRoute(viewModel: CatsViewModel = hiltViewModel()) {
     val cats = viewModel.cats.collectAsLazyPagingItems()
-    CatsListScreen(cats = cats)
+    CatsListScreen(cats = cats, onBookMarkClick = viewModel::bookmark)
 }
 
 @Composable
 fun CatsListScreen(
-    cats: LazyPagingItems<CatModel>
+    cats: LazyPagingItems<CatModel>,
+    onBookMarkClick: (CatModel, Boolean) -> Unit
 ) {
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
@@ -88,9 +92,13 @@ fun CatsListScreen(
                 ) {
                     items(cats.itemCount) {
                         cats[it]?.let { cat ->
-                            CatCard(cat) {
-                                selectedCat = cat
-                            }
+                            CatCard(
+                                cat,
+                                onClick = {
+                                    selectedCat = cat
+                                },
+                                onBookMarkClick = onBookMarkClick
+                            )
                         }
                     }
                 }
@@ -214,20 +222,39 @@ fun CatCard(
     cat: CatModel,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    onBookMarkClick: (CatModel, Boolean) -> Unit,
 ) {
-    AsyncImage(
-        model = cat.url,
-        contentDescription = stringResource(id = R.string.cat_image),
-        modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-            .aspectRatio(0.8f)
-            .clip(
-                RoundedCornerShape(10.dp)
-            )
-            .clickable(onClick = onClick),
-        placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
-        contentScale = ContentScale.Crop,
-    )
+    Box(modifier = modifier.wrapContentSize()) {
+        AsyncImage(
+            model = cat.url,
+            contentDescription = stringResource(id = R.string.cat_image),
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .aspectRatio(0.8f)
+                .clip(
+                    RoundedCornerShape(10.dp)
+                )
+                .clickable(onClick = onClick),
+            placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
+            contentScale = ContentScale.Crop,
+        )
+        Image(
+            painter = painterResource(
+                id = if (cat.isBookmarked)
+                    R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_empty
+            ),
+            contentDescription = stringResource(id = R.string.bookmark_button),
+            modifier = Modifier
+                .size(32.dp)
+                .padding(start = 8.dp, top = 8.dp)
+                .align(Alignment.TopStart)
+                .clickable {
+                    onBookMarkClick(cat, cat.isBookmarked.not())
+                }
+                .clip(CircleShape)
+                .background(White)
+        )
+    }
 
 }
 
