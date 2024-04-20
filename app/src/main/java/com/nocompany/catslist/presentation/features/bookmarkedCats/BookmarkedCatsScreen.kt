@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -47,7 +48,7 @@ fun BookmarkedCatsScreen(bookmarkedCatsUiState: BookmarkedCatsUiState) {
             text = stringResource(id = R.string.bookmarks),
             style = MaterialTheme.typography.headlineMedium
         )
-        Box {
+        Box(modifier = Modifier.fillMaxSize()) {
             when (bookmarkedCatsUiState) {
                 is BookmarkedCatsUiState.Success -> {
                     if (bookmarkedCatsUiState.list.isNotEmpty())
@@ -72,7 +73,7 @@ fun BookmarkedCatsScreen(bookmarkedCatsUiState: BookmarkedCatsUiState) {
                         Text(
                             modifier = Modifier.align(Alignment.Center),
                             text = stringResource(id = R.string.empty_bookmark_list),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center)
                         )
 
                 }
@@ -81,7 +82,7 @@ fun BookmarkedCatsScreen(bookmarkedCatsUiState: BookmarkedCatsUiState) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = stringResource(id = R.string.error),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Center)
                     )
                 }
 
