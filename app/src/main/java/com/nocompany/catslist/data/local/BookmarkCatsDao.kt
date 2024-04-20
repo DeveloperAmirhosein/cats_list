@@ -17,5 +17,4 @@ interface BookmarkCatsDao {
     @Query("Delete FROM CatEntity WHERE id =:id")
     suspend fun deleteFromBookmarks(id: String)
 
-
 }
