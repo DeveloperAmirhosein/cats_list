@@ -2,6 +2,7 @@ package com.nocompany.catslist.di
 
 import android.content.Context
 import androidx.room.Room
+import com.nocompany.catslist.data.local.BookmarkCatsDao
 import com.nocompany.catslist.data.local.CatsDataBase
 import com.nocompany.catslist.data.remote.SearchCatsApi
 import dagger.Module
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val API_KEY ="WELDY"
+    private const val API_KEY = "WELDY"
 
     @Provides
     @Singleton
@@ -49,7 +50,6 @@ object AppModule {
         .create(SearchCatsApi::class.java)
 
 
-
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): CatsDataBase {
@@ -61,4 +61,7 @@ object AppModule {
             )
             .build()
     }
+
+    @Provides
+    fun provideBookmarkDao(dataBase: CatsDataBase): BookmarkCatsDao = dataBase.bookmarkCatsDao
 }

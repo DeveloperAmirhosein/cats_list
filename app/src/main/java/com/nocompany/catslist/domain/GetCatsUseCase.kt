@@ -6,9 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetCatsUseCase @Inject constructor(
-    private val repository: SearchCatsRepository,
+    private val searchCatsRepository: SearchCatsRepository,
+    private val bookmarkRepository: BookmarkRepository,
 ) {
     operator fun invoke(): Flow<PagingData<Cat>> {
-        return repository.getCatsList()
+        return searchCatsRepository.getCatsList()
     }
 }

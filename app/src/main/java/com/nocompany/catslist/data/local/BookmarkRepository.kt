@@ -23,5 +23,4 @@ class BookmarkRepositoryImplementation @Inject constructor(
     override fun getBookmarkedCats(): Flow<List<Cat>> =
         dao.getBookmarkedCats().map { it.map(CatEntity::asExternalModel) }
 
-
 }
