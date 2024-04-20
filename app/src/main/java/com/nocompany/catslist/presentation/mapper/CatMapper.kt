@@ -1,6 +1,7 @@
 package com.nocompany.catslist.presentation.mapper
 
-import com.nocompany.catslist.domain.model.Cat
+import com.nocompany.catslist.domain.model.BookmarkableCat
 import com.nocompany.catslist.presentation.model.CatModel
 
-fun Cat.asPresentationCatModel(): CatModel = CatModel(id, url, width, height)
+fun BookmarkableCat.asPresentationCatModel(): CatModel =
+    CatModel(cat.id, cat.url, cat.width, cat.height, isBookmarked)
