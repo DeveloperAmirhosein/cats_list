@@ -21,10 +21,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -36,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -151,21 +153,18 @@ fun CatsListScreen(
             FullScreenImageDialog(cat = it) { selectedCat = null }
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_bookmarks),
-            contentScale = ContentScale.Inside,
-            contentDescription = stringResource(
-                id = R.string.bookmarks
-            ),
+        FloatingActionButton(
             modifier = Modifier
-                .size(48.dp)
+                .clickable { onGoToBookmarkedCatsButtonClick() }
                 .offset(x = (-16).dp, y = -80.dp)
-                .align(Alignment.BottomEnd)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary)
-                .clickable(onClick = onGoToBookmarkedCatsButtonClick)
-
-        )
+                .align(Alignment.BottomEnd),
+            onClick = onGoToBookmarkedCatsButtonClick,
+        ) {
+            Icon(
+                painterResource(id = R.drawable.ic_bookmarks),
+                stringResource(id = R.string.bookmarks),
+            )
+        }
     }
 }
 
@@ -262,22 +261,29 @@ fun CatCard(
             placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
             contentScale = ContentScale.Crop,
         )
-        Image(
-            painter = painterResource(
-                id = if (cat.isBookmarked)
-                    R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_empty
-            ),
-            contentDescription = stringResource(id = R.string.bookmark_button),
+
+        IconButton(
             modifier = Modifier
-                .size(32.dp)
+                .size(36.dp)
                 .padding(start = 8.dp, top = 8.dp)
-                .align(Alignment.TopStart)
-                .clickable {
-                    onBookMarkClick(cat, cat.isBookmarked.not())
-                }
-                .clip(CircleShape)
-                .background(White)
-        )
+                .align(Alignment.TopStart),
+            colors = IconButtonDefaults.iconButtonColors(MaterialTheme.colorScheme.surface),
+            onClick = {
+                onBookMarkClick(cat, cat.isBookmarked.not())
+            }
+        ) {
+            Icon(
+                painterResource(
+                    id = if (cat.isBookmarked)
+                        R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_empty
+                ),
+                stringResource(id = R.string.bookmark_button),
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        }
+
     }
 
 }
