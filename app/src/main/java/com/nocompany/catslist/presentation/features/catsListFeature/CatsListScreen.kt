@@ -1,4 +1,4 @@
-package com.nocompany.catslist.presentation.catsListFeature
+package com.nocompany.catslist.presentation.features.catsListFeature
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

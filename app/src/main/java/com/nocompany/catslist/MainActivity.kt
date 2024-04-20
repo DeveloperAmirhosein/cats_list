@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.nocompany.catslist.presentation.catsListFeature.CatsListRoute
+import com.nocompany.catslist.presentation.features.catsListFeature.CatsListRoute
 import com.nocompany.catslist.ui.theme.CatsListTheme
 import dagger.hilt.android.AndroidEntryPoint
 
