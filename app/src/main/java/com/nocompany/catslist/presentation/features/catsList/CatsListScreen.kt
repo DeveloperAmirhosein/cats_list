@@ -234,6 +234,7 @@ fun FullScreenImageDialog(
                     RoundedCornerShape(16.dp)
                 ),
             placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
+            error = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
             contentScale = ContentScale.Crop,
         )
 
@@ -259,6 +260,7 @@ fun CatCard(
                 )
                 .clickable(onClick = onClick),
             placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
+            error = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
             contentScale = ContentScale.Crop,
         )
 

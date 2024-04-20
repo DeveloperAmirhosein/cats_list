@@ -118,6 +118,7 @@ fun CatCard(
             ),
         placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
         contentScale = ContentScale.Crop,
+        error = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
     )
 
 }
