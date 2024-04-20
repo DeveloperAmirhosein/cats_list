@@ -3,6 +3,7 @@ package com.nocompany.catslist.data.local
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import com.nocompany.catslist.data.local.entities.CatEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

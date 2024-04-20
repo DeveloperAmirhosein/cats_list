@@ -1,4 +1,4 @@
-package com.nocompany.catslist.data.local
+package com.nocompany.catslist.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

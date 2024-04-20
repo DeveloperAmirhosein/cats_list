@@ -2,8 +2,8 @@ package com.nocompany.catslist.data.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.nocompany.catslist.data.mapper.asExternalModel
 import com.nocompany.catslist.data.remote.dto.CatDto
-import com.nocompany.catslist.data.remote.dto.asExternalModel
 import com.nocompany.catslist.domain.model.Cat
 import retrofit2.HttpException
 import java.io.IOException

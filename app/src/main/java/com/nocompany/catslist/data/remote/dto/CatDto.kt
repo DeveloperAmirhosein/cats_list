@@ -9,7 +9,3 @@ data class CatDto(
     @field:Json(name = "width") val width: Long,
     @field:Json(name = "height") val height: Long,
 )
-
-fun CatDto.asExternalModel(): Cat {
-    return Cat(id, url, width, height)
-}

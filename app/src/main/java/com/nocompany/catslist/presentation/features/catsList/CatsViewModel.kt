@@ -7,13 +7,10 @@ import androidx.paging.map
 import com.nocompany.catslist.domain.usecase.BookmarkCatUseCase
 import com.nocompany.catslist.domain.usecase.GetBookmarkedCatsUseCase
 import com.nocompany.catslist.domain.usecase.GetCatsUseCase
-import com.nocompany.catslist.domain.model.BookmarkableCat
 import com.nocompany.catslist.presentation.mapper.asDomainCatModel
-import com.nocompany.catslist.presentation.mapper.asPresentationCatModel
 import com.nocompany.catslist.presentation.model.CatModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,14 +28,15 @@ class CatsViewModel @Inject constructor(
         getBookmarkedCatsUseCase()
     ) { pagingCats, bookmarkedCats ->
         pagingCats.map { cat ->
-            BookmarkableCat(
-                cat,
+            CatModel(
+                cat.id,
+                cat.url,
+                cat.width,
+                cat.height,
                 isBookmarked = cat.id in bookmarkedCats.map {
                     it.id
                 })
         }
-    }.map { pagingData ->
-        pagingData.map { it.asPresentationCatModel() }
     }
 
 
