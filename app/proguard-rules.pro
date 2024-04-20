@@ -1,5 +1,5 @@
--keep class com.nocompany.catslist.data.local.CatEntity { *; }
--keep class com.nocompany.catslist.data.local.mapper.** { *; }
+-keep class com.nocompany.catslist.data.local.entities.CatEntity { *; }
+-keep class com.nocompany.catslist.data.mapper.** { *; }
 -keep class com.nocompany.catslist.data.remote.dto.** { *; }
 
 -keepattributes Signature, InnerClasses, EnclosingMethod

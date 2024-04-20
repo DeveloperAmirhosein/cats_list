@@ -1,6 +1,6 @@
 package com.nocompany.catslist.data.mapper
 
-import com.nocompany.catslist.data.local.CatEntity
+import com.nocompany.catslist.data.local.entities.CatEntity
 import com.nocompany.catslist.data.remote.dto.CatDto
 import com.nocompany.catslist.domain.model.Cat
 
