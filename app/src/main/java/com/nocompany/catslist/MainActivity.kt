@@ -9,9 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.nocompany.catslist.presentation.features.catsListFeature.CATS_LIST_ROUTE
-import com.nocompany.catslist.presentation.features.catsListFeature.CatsListRoute
-import com.nocompany.catslist.presentation.features.catsListFeature.catsListScreen
+import com.nocompany.catslist.presentation.features.catsList.CATS_LIST_ROUTE
+import com.nocompany.catslist.presentation.features.catsList.catsListScreen
 import com.nocompany.catslist.ui.theme.CatsListTheme
 import dagger.hilt.android.AndroidEntryPoint
 

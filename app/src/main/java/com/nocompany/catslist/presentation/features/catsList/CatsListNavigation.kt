@@ -1,4 +1,4 @@
-package com.nocompany.catslist.presentation.features.catsListFeature
+package com.nocompany.catslist.presentation.features.catsList
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

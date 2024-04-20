@@ -1,4 +1,4 @@
-package com.nocompany.catslist.presentation.features.catsListFeature
+package com.nocompany.catslist.presentation.features.catsList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
