@@ -76,7 +76,7 @@ fun CatsListScreen(
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
     val loadMoreState = loadState.source.append
-    var selectedCat: CatModel? by rememberSaveable {
+    var dialogShownCat: CatModel? by rememberSaveable {
         mutableStateOf(null)
     }
 
@@ -106,7 +106,7 @@ fun CatsListScreen(
                             CatCard(
                                 cat,
                                 onClick = {
-                                    selectedCat = cat
+                                    dialogShownCat = cat
                                 },
                                 onBookMarkClick = onBookMarkItemClick
                             )
@@ -149,8 +149,8 @@ fun CatsListScreen(
 
         }
 
-        selectedCat?.let {
-            FullScreenImageDialog(cat = it) { selectedCat = null }
+        dialogShownCat?.let {
+            FullScreenImageDialog(cat = it) { dialogShownCat = null }
         }
 
         FloatingActionButton(
