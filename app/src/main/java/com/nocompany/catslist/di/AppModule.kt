@@ -1,9 +1,13 @@
 package com.nocompany.catslist.di
 
+import android.content.Context
+import androidx.room.Room
+import com.nocompany.catslist.data.local.CatsDataBase
 import com.nocompany.catslist.data.remote.CatsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -44,4 +48,17 @@ object AppModule {
         .build()
         .create(CatsApi::class.java)
 
+
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): CatsDataBase {
+        return Room
+            .databaseBuilder(
+                context,
+                CatsDataBase::class.java,
+                "cats.db"
+            )
+            .build()
+    }
 }
