@@ -8,5 +8,6 @@
     <string name="connection_glitch">Connection glitch</string>
     <string name="retry">Retry</string>
     <string name="bookmark_button">Bookmark button</string>
-    <string name="bookmarks">Bookmarks Button</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="empty_bookmark_list">No item is bookmarked</string>
 </resources>
