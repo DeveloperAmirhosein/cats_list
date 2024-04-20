@@ -9,6 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.nocompany.catslist.presentation.features.bookmarkedCats.bookmarkedCatsScreen
+import com.nocompany.catslist.presentation.features.bookmarkedCats.navigateToBookmarkedCats
 import com.nocompany.catslist.presentation.features.catsList.CATS_LIST_ROUTE
 import com.nocompany.catslist.presentation.features.catsList.catsListScreen
 import com.nocompany.catslist.ui.theme.CatsListTheme
@@ -29,7 +31,10 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = CATS_LIST_ROUTE
                     ) {
-                        catsListScreen {}
+                        catsListScreen {
+                            navController.navigateToBookmarkedCats()
+                        }
+                        bookmarkedCatsScreen()
                     }
                 }
             }

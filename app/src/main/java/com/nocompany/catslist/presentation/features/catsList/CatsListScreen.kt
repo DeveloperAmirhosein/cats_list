@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -53,17 +54,22 @@ import com.nocompany.catslist.presentation.model.CatModel
 
 @Composable
 fun CatsListRoute(
-    onBookmarkButtonClick: () -> Unit,
+    onGoToBookmarksButtonClick: () -> Unit,
     viewModel: CatsViewModel = hiltViewModel(),
 ) {
     val cats = viewModel.cats.collectAsLazyPagingItems()
-    CatsListScreen(cats = cats, onBookMarkClick = viewModel::bookmark)
+    CatsListScreen(
+        cats = cats,
+        onBookMarkItemClick = viewModel::bookmark,
+        onGoToBookmarkedCatsButtonClick = onGoToBookmarksButtonClick
+    )
 }
 
 @Composable
 fun CatsListScreen(
     cats: LazyPagingItems<CatModel>,
-    onBookMarkClick: (CatModel, Boolean) -> Unit
+    onBookMarkItemClick: (CatModel, Boolean) -> Unit,
+    onGoToBookmarkedCatsButtonClick: () -> Unit,
 ) {
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
@@ -100,7 +106,7 @@ fun CatsListScreen(
                                 onClick = {
                                     selectedCat = cat
                                 },
-                                onBookMarkClick = onBookMarkClick
+                                onBookMarkClick = onBookMarkItemClick
                             )
                         }
                     }
@@ -145,6 +151,21 @@ fun CatsListScreen(
             FullScreenImageDialog(cat = it) { selectedCat = null }
         }
 
+        Image(
+            painter = painterResource(id = R.drawable.ic_bookmarks),
+            contentScale = ContentScale.Inside,
+            contentDescription = stringResource(
+                id = R.string.bookmarks
+            ),
+            modifier = Modifier
+                .size(48.dp)
+                .offset(x = (-16).dp, y = -80.dp)
+                .align(Alignment.BottomEnd)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary)
+                .clickable(onClick = onGoToBookmarkedCatsButtonClick)
+
+        )
     }
 }
 
