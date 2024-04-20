@@ -1,8 +1,9 @@
-package com.nocompany.catslist.data.remote
+package com.nocompany.catslist.data
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.nocompany.catslist.data.remote.SearchCatsPagingSource
 import com.nocompany.catslist.domain.repository.SearchCatsRepository
 import com.nocompany.catslist.domain.model.Cat
 import kotlinx.coroutines.flow.Flow
