@@ -9,7 +9,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class CatsPagingSource @Inject constructor(private val dataSource: CatsRemoteDataSource) :
+class SearchCatsPagingSource @Inject constructor(private val dataSource: SearchCatsRemoteDataSource) :
     PagingSource<Int, Cat>() {
     override fun getRefreshKey(state: PagingState<Int, Cat>): Int =
         ((state.anchorPosition ?: 0) - state.config.initialLoadSize / 2)

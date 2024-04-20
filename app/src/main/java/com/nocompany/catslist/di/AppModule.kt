@@ -3,7 +3,7 @@ package com.nocompany.catslist.di
 import android.content.Context
 import androidx.room.Room
 import com.nocompany.catslist.data.local.CatsDataBase
-import com.nocompany.catslist.data.remote.CatsApi
+import com.nocompany.catslist.data.remote.SearchCatsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,13 +40,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCatsApi(client: OkHttpClient): CatsApi = Retrofit
+    fun provideCatsApi(client: OkHttpClient): SearchCatsApi = Retrofit
         .Builder()
         .client(client)
-        .baseUrl(CatsApi.BASE_URL)
+        .baseUrl(SearchCatsApi.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
-        .create(CatsApi::class.java)
+        .create(SearchCatsApi::class.java)
 
 
 

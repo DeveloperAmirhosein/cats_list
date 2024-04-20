@@ -4,7 +4,7 @@ import com.nocompany.catslist.data.remote.dto.CatDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface CatsApi {
+interface SearchCatsApi {
 
     @GET(value = "images/search")
     suspend fun getCatsList(
