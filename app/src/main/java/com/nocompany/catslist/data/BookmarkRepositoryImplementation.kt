@@ -2,8 +2,8 @@ package com.nocompany.catslist.data
 
 import com.nocompany.catslist.data.local.BookmarkCatsDao
 import com.nocompany.catslist.data.local.CatEntity
-import com.nocompany.catslist.data.local.mapper.asEntity
-import com.nocompany.catslist.data.local.mapper.asExternalModel
+import com.nocompany.catslist.data.mapper.asEntity
+import com.nocompany.catslist.data.mapper.asExternalModel
 import com.nocompany.catslist.domain.repository.BookmarkRepository
 import com.nocompany.catslist.domain.model.Cat
 import kotlinx.coroutines.flow.Flow

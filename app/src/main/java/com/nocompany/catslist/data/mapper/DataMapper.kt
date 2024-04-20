@@ -1,6 +1,7 @@
-package com.nocompany.catslist.data.local.mapper
+package com.nocompany.catslist.data.mapper
 
 import com.nocompany.catslist.data.local.CatEntity
+import com.nocompany.catslist.data.remote.dto.CatDto
 import com.nocompany.catslist.domain.model.Cat
 
 fun Cat.asEntity(): CatEntity = CatEntity(
@@ -16,3 +17,7 @@ fun CatEntity.asExternalModel(): Cat = Cat(
     width = width,
     height = height
 )
+
+fun CatDto.asExternalModel(): Cat {
+    return Cat(id, url, width, height)
+}
