@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.nocompany.catslist.presentation.features.catsListFeature.CATS_LIST_ROUTE
 import com.nocompany.catslist.presentation.features.catsListFeature.CatsListRoute
+import com.nocompany.catslist.presentation.features.catsListFeature.catsListScreen
 import com.nocompany.catslist.ui.theme.CatsListTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +25,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CatsListRoute()
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = CATS_LIST_ROUTE
+                    ) {
+                        catsListScreen {}
+                    }
                 }
             }
         }

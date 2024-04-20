@@ -52,7 +52,10 @@ import com.nocompany.catslist.R
 import com.nocompany.catslist.presentation.model.CatModel
 
 @Composable
-fun CatsListRoute(viewModel: CatsViewModel = hiltViewModel()) {
+fun CatsListRoute(
+    onBookmarkButtonClick: () -> Unit,
+    viewModel: CatsViewModel = hiltViewModel(),
+) {
     val cats = viewModel.cats.collectAsLazyPagingItems()
     CatsListScreen(cats = cats, onBookMarkClick = viewModel::bookmark)
 }
