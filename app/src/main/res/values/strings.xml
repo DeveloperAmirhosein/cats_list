@@ -7,4 +7,7 @@
     <string name="internet_connection_error">Seems like there\'s an internet \n connection problem.</string>
     <string name="connection_glitch">Connection glitch</string>
     <string name="retry">Retry</string>
+    <string name="bookmark_button">Bookmark button</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="empty_bookmark_list">No item is bookmarked</string>
 </resources>

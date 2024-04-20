@@ -9,4 +9,5 @@ data class CatModel(
     val url: String,
     val width: Long,
     val height: Long,
+    val isBookmarked: Boolean,
 ) : Parcelable

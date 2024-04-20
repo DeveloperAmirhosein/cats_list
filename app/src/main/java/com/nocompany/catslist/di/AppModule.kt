@@ -1,9 +1,14 @@
 package com.nocompany.catslist.di
 
-import com.nocompany.catslist.data.remote.CatsApi
+import android.content.Context
+import androidx.room.Room
+import com.nocompany.catslist.data.local.BookmarkCatsDao
+import com.nocompany.catslist.data.local.CatsDataBase
+import com.nocompany.catslist.data.remote.SearchCatsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val API_KEY ="WELDY"
+    private const val API_KEY = "WELDY"
 
     @Provides
     @Singleton
@@ -36,12 +41,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCatsApi(client: OkHttpClient): CatsApi = Retrofit
+    fun provideCatsApi(client: OkHttpClient): SearchCatsApi = Retrofit
         .Builder()
         .client(client)
-        .baseUrl(CatsApi.BASE_URL)
+        .baseUrl(SearchCatsApi.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
-        .create(CatsApi::class.java)
+        .create(SearchCatsApi::class.java)
 
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): CatsDataBase {
+        return Room
+            .databaseBuilder(
+                context,
+                CatsDataBase::class.java,
+                "cats.db"
+            )
+            .build()
+    }
+
+    @Provides
+    fun provideBookmarkDao(dataBase: CatsDataBase): BookmarkCatsDao = dataBase.bookmarkCatsDao
 }

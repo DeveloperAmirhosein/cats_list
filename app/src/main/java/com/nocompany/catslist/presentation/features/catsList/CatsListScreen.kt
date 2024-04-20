@@ -1,4 +1,4 @@
-package com.nocompany.catslist.presentation.catsListFeature
+package com.nocompany.catslist.presentation.features.catsList
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -14,14 +14,20 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -49,19 +55,28 @@ import com.nocompany.catslist.R
 import com.nocompany.catslist.presentation.model.CatModel
 
 @Composable
-fun CatsListRoute(viewModel: CatsViewModel = hiltViewModel()) {
+fun CatsListRoute(
+    onGoToBookmarksButtonClick: () -> Unit,
+    viewModel: CatsViewModel = hiltViewModel(),
+) {
     val cats = viewModel.cats.collectAsLazyPagingItems()
-    CatsListScreen(cats = cats)
+    CatsListScreen(
+        cats = cats,
+        onBookMarkItemClick = viewModel::bookmark,
+        onGoToBookmarkedCatsButtonClick = onGoToBookmarksButtonClick
+    )
 }
 
 @Composable
 fun CatsListScreen(
-    cats: LazyPagingItems<CatModel>
+    cats: LazyPagingItems<CatModel>,
+    onBookMarkItemClick: (CatModel, Boolean) -> Unit,
+    onGoToBookmarkedCatsButtonClick: () -> Unit,
 ) {
     val loadState = cats.loadState
     val refreshLoadState = loadState.refresh
     val loadMoreState = loadState.source.append
-    var selectedCat: CatModel? by rememberSaveable {
+    var dialogShownCat: CatModel? by rememberSaveable {
         mutableStateOf(null)
     }
 
@@ -88,9 +103,13 @@ fun CatsListScreen(
                 ) {
                     items(cats.itemCount) {
                         cats[it]?.let { cat ->
-                            CatCard(cat) {
-                                selectedCat = cat
-                            }
+                            CatCard(
+                                cat,
+                                onClick = {
+                                    dialogShownCat = cat
+                                },
+                                onBookMarkClick = onBookMarkItemClick
+                            )
                         }
                     }
                 }
@@ -130,10 +149,22 @@ fun CatsListScreen(
 
         }
 
-        selectedCat?.let {
-            FullScreenImageDialog(cat = it) { selectedCat = null }
+        dialogShownCat?.let {
+            FullScreenImageDialog(cat = it) { dialogShownCat = null }
         }
 
+        FloatingActionButton(
+            modifier = Modifier
+                .clickable { onGoToBookmarkedCatsButtonClick() }
+                .offset(x = (-16).dp, y = -80.dp)
+                .align(Alignment.BottomEnd),
+            onClick = onGoToBookmarkedCatsButtonClick,
+        ) {
+            Icon(
+                painterResource(id = R.drawable.ic_bookmarks),
+                stringResource(id = R.string.bookmarks),
+            )
+        }
     }
 }
 
@@ -214,20 +245,46 @@ fun CatCard(
     cat: CatModel,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    onBookMarkClick: (CatModel, Boolean) -> Unit,
 ) {
-    AsyncImage(
-        model = cat.url,
-        contentDescription = stringResource(id = R.string.cat_image),
-        modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-            .aspectRatio(0.8f)
-            .clip(
-                RoundedCornerShape(10.dp)
+    Box(modifier = modifier.wrapContentSize()) {
+        AsyncImage(
+            model = cat.url,
+            contentDescription = stringResource(id = R.string.cat_image),
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .aspectRatio(0.8f)
+                .clip(
+                    RoundedCornerShape(10.dp)
+                )
+                .clickable(onClick = onClick),
+            placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
+            contentScale = ContentScale.Crop,
+        )
+
+        IconButton(
+            modifier = Modifier
+                .size(36.dp)
+                .padding(start = 8.dp, top = 8.dp)
+                .align(Alignment.TopStart),
+            colors = IconButtonDefaults.iconButtonColors(MaterialTheme.colorScheme.surface),
+            onClick = {
+                onBookMarkClick(cat, cat.isBookmarked.not())
+            }
+        ) {
+            Icon(
+                painterResource(
+                    id = if (cat.isBookmarked)
+                        R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_empty
+                ),
+                stringResource(id = R.string.bookmark_button),
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .size(20.dp)
             )
-            .clickable(onClick = onClick),
-        placeholder = ColorPainter(MaterialTheme.colorScheme.secondaryContainer),
-        contentScale = ContentScale.Crop,
-    )
+        }
+
+    }
 
 }
 
